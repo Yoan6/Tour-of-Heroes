@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "tour-of-heroes-486fb": {
+      "hosting": {
+        "angular-tour-of-heroes-delannyo": [
+          "tour-of-heroes-486fb"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "tour-of-heroes-486fb"
+  }
+}

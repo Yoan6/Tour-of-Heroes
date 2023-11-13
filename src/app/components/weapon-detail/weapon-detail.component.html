@@ -1,0 +1,102 @@
+<div *ngIf="weapon">
+  <button type="button" (click)="goBack()">Go back</button>
+  <h2>{{weapon.name | uppercase}} Details</h2>
+  <div><span>Id: </span>{{weapon.id}}</div>
+
+  <form [formGroup]="weaponForm" (ngSubmit)="modifyWeapon()">
+    <div>
+      <label for="name">Weapon name : </label>
+      <input formControlName="name" id="name" name="name" type="text"/>
+      <div *ngIf="weaponForm.get('name')?.invalid && (weaponForm.get('name')?.dirty || weaponForm.get('name')?.touched)"
+           class="error-message">
+        <div *ngIf="weaponForm.get('name')?.errors?.['required']">
+          Name is required.
+        </div>
+        <div *ngIf="weaponForm.get('name')?.errors?.['minlength']">
+          Name must be at least 3 characters long.
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <label for="attack">Weapon attack : </label>
+      <input formControlName="attack" id="attack" name="attack" type="number"/>
+      <div *ngIf="weaponForm.get('attack')?.invalid && (weaponForm.get('attack')?.dirty || weaponForm.get('attack')?.touched)"
+           class="error-message">
+        <div *ngIf="weaponForm.get('attack')?.errors?.['required']">
+          Attack is required.
+        </div>
+        <div *ngIf="weaponForm.get('attack')?.errors?.['min']">
+          Attack must be at least -5.
+        </div>
+        <div *ngIf="weaponForm.get('attack')?.errors?.['max']">
+          Attack must be at most 5
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <label for="evasion">Weapon evasion : </label>
+      <input formControlName="evasion" id="evasion" name="evasion" type="number"/>
+      <div *ngIf="weaponForm.get('evasion')?.invalid && (weaponForm.get('evasion')?.dirty || weaponForm.get('evasion')?.touched)"
+           class="error-message">
+        <div *ngIf="weaponForm.get('evasion')?.errors?.['required']">
+          Evasion is required.
+        </div>
+        <div *ngIf="weaponForm.get('evasion')?.errors?.['min']">
+          Evasion must be at least -5.
+        </div>
+        <div *ngIf="weaponForm.get('evasion')?.errors?.['max']">
+          Evasion must be at most 5
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <label for="health">Weapon health : </label>
+      <input formControlName="health" id="health" name="health" type="number"/>
+      <div *ngIf="weaponForm.get('health')?.invalid && (weaponForm.get('health')?.dirty || weaponForm.get('health')?.touched)"
+           class="error-message">
+        <div *ngIf="weaponForm.get('health')?.errors?.['required']">
+          Health is required.
+        </div>
+        <div *ngIf="weaponForm.get('health')?.errors?.['min']">
+          Health must be at least -5.
+        </div>
+        <div *ngIf="weaponForm.get('health')?.errors?.['max']">
+          Health must be at most 5
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <label for="damage">Weapon damage : </label>
+      <input formControlName="damage" id="damage" name="damage" type="number"/>
+      <div *ngIf="weaponForm.get('damage')?.invalid && (weaponForm.get('damage')?.dirty || weaponForm.get('damage')?.touched)"
+           class="error-message">
+        <div *ngIf="weaponForm.get('damage')?.errors?.['required']">
+          Damage is required.
+        </div>
+        <div *ngIf="weaponForm.get('damage')?.errors?.['min']">
+          Damage must be at least -5.
+        </div>
+        <div *ngIf="weaponForm.get('damage')?.errors?.['max']">
+          Damage must be at most 5
+        </div>
+      </div>
+    </div>
+
+
+    <div *ngIf="weaponForm.hasError('totalAttributesExceeded')" class="error-message">
+      Remaining points: {{ weaponForm.getError('remainingPoints') }}
+    </div>
+
+
+    <div *ngIf="weaponForm.hasError('forbiddenAttributes')" class="error-message">
+      Total attributes cannot be different of 0.
+    </div>
+
+    <button type="submit" [disabled]="!weaponForm.valid">Modify the hero</button>
+    <button (click)="deleteWeapon(this.weapon.id || '')">Delete the hero</button>
+  </form>
+</div>
