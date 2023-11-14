@@ -5,6 +5,9 @@ import { Location } from '@angular/common';
 import {AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
 
 import { HeroService } from '../../service/hero.service';
+import { WeaponService } from "../../service/weapon.service";
+import {Weapon} from "../../data/weapon";
+import {first, Observable, Subscription} from "rxjs";
 
 
 @Component({
@@ -14,7 +17,11 @@ import { HeroService } from '../../service/hero.service';
 })
 export class HeroDetailComponent implements OnInit {
   hero: Hero | undefined;
+  weapons: Weapon[] = [];
+  weaponsAysnc?: Observable<Weapon[]>;
+  subscriptionGetWeapons?: Subscription;
   errorMessages: string[] = [];
+
   heroForm: FormGroup = new FormGroup({
     name: new FormControl('',Validators.compose([
       Validators.required, Validators.minLength(3)])),
@@ -26,22 +33,27 @@ export class HeroDetailComponent implements OnInit {
       Validators.required, Validators.min(1)])),
     damage: new FormControl(10, Validators.compose([
       Validators.required, Validators.min(1)])),
+    weapon: new FormControl('', Validators.compose([
+      Validators.required])),
   }, {
     validators: [
       this.forbiddenAttributsValidator(),
-      this.remainingPointsValidator()
+      this.remainingPointsValidator(),
+      this.forbiddenWeaponAttributsValidator()
     ]
   });
 
   constructor(
     private route: ActivatedRoute,
     private heroService: HeroService,
+    private weaponService: WeaponService,
     private location: Location,
-    private router: Router
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
     this.getHero();
+    this.getWeapons();
   }
 
   getHero(): void {
@@ -55,10 +67,18 @@ export class HeroDetailComponent implements OnInit {
             attack: this.hero.attack,
             evasion: this.hero.evasion,
             health: this.hero.health,
-            damage: this.hero.damage
+            damage: this.hero.damage,
+            weapon: this.hero.weapon
           });
         });
     }
+  }
+
+  getWeapons(): void {
+    // Subscription "simple"
+    this.subscriptionGetWeapons = this.weaponService.getWeapons()
+      .subscribe(weapons => this.weapons = weapons);
+    this.weaponsAysnc = this.weaponService.getWeapons();
   }
 
   // Validateur personnalisé qui vérifie que la somme des attributs n'est pas supérieure à 40
@@ -95,6 +115,32 @@ export class HeroDetailComponent implements OnInit {
     };
   }
 
+  // On fait un validateur pour check pour chaque attributs du héro si la somme
+  // avec l'attribut correspondant de son arme est supérieur à 0
+  // Si c'est le cas, on renvoie une erreur
+  forbiddenWeaponAttributsValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const attack = control.get('attack')?.value || 0;
+      const evasion = control.get('evasion')?.value || 0;
+      const health = control.get('health')?.value || 0;
+      const damage = control.get('damage')?.value || 0;
+      const weaponAttack = control.get('weapon')?.get('attack')?.value || 0;
+      const weaponEvasion = control.get('weapon')?.get('evasion')?.value || 0;
+      const weaponHealth = control.get('weapon')?.get('health')?.value || 0;
+      const weaponDamage = control.get('weapon')?.get('damage')?.value || 0;
+      const totalAttack = attack + weaponAttack;
+      const totalEvasion = evasion + weaponEvasion;
+      const totalHealth = health + weaponHealth;
+      const totalDamage = damage + weaponDamage;
+
+      if (totalAttack <= 0 || totalEvasion <= 0 || totalHealth <= 0 || totalDamage <= 0) {
+        return { forbiddenWeaponAttributsValidator: true };
+      } else {
+        return null;
+      }
+    };
+  }
+
   goBack(): void {
     this.location.back();
   }
@@ -109,14 +155,16 @@ export class HeroDetailComponent implements OnInit {
         this.hero.evasion = formValues.evasion;
         this.hero.health = formValues.health;
         this.hero.damage = formValues.damage;
+        this.hero.weapon = formValues.weapon;
 
         this.heroService.updateHero(this.hero)
           .then(response => {
-            // Gérer la réponse ici, par exemple, afficher un message de succès
+            // On gère la réponse ici
             console.log('Héros mis à jour avec succès', response);
+            this.router.navigateByUrl('/heroes');
           })
           .catch(error => {
-            // Gérer les erreurs ici, par exemple, afficher un message d'erreur
+            // On gère les erreurs ici
             console.error('Erreur lors de la mise à jour du héros', error);
           });
       }

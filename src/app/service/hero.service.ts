@@ -63,7 +63,7 @@ export class HeroService {
   addHero(heroParam: Hero): Promise<Hero> {
 
     let hero: Hero = new Hero();
-    
+
 
     // get a reference to the hero collection
     const heroCollection = collection(this.firestore, HeroService.url);

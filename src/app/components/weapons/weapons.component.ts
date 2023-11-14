@@ -30,38 +30,9 @@ export class WeaponsComponent implements OnInit {
     this.weaponsAysnc = this.weaponService.getWeapons();
   }
 
-  getWeapon(id: string) {
-
-    this.weaponService.getWeapon(id).pipe(first())
-      .subscribe(weapon => {
-        this.weapon = weapon;
-        console.log("getWeapon by id : " + id);
-        console.log("résultat : " + weapon);
-      });
-  }
-
-  deleteWeapon(id: string) {
-    if (this.weapon && this.weapon.id) {
-      this.weaponService.deleteWeapon(this.weapon.id).then(() => {
-          this.weapon = undefined;
-          console.log("Suppression du weapon");
-      })
-          .catch((error) => console.log("Problème lors de la suppression du weapon"));
-    }
-  }
-
   newWeapon() {
     let weapon = new Weapon();
     this.weaponService.addWeapon(weapon);
-  }
-
-  modifyWeapon() {
-    if (this.weapon && this.weapon.id) {
-      this.weaponService.updateWeapon(this.weapon).then(() => {
-          console.log("Modification du weapon");
-      })
-          .catch((error) => console.log("Problème lors de la modification du weapon"));
-    }
   }
 
   // Désabonnement de l'observable
