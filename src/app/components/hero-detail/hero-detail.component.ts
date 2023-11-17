@@ -34,7 +34,7 @@ export class HeroDetailComponent implements OnInit {
     damage: new FormControl(10, Validators.compose([
       Validators.required, Validators.min(1)])),
     weapon: new FormControl('', Validators.compose([
-      Validators.required])),
+      Validators.required, Validators.minLength(3)])),
   }, {
     validators: [
       this.forbiddenAttributsValidator(),
@@ -59,7 +59,7 @@ export class HeroDetailComponent implements OnInit {
   getHero(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (id != null) {
-      this.heroService.getHero(id)
+      this.heroService.getHero(id).pipe(first())
         .subscribe(hero => {
           this.hero = hero;
           this.heroForm.patchValue({
@@ -67,18 +67,22 @@ export class HeroDetailComponent implements OnInit {
             attack: this.hero.attack,
             evasion: this.hero.evasion,
             health: this.hero.health,
-            damage: this.hero.damage,
-            weapon: this.hero.weapon
+            damage: this.hero.damage
           });
         });
     }
   }
 
   getWeapons(): void {
-    // Subscription "simple"
-    this.subscriptionGetWeapons = this.weaponService.getWeapons()
-      .subscribe(weapons => this.weapons = weapons);
-    this.weaponsAysnc = this.weaponService.getWeapons();
+    this.weaponService.getWeapons()
+      .subscribe(weapons => {
+        this.weapons = weapons;
+        this.heroForm.patchValue({
+          weapon: this.hero?.weaponId
+        });
+      });
+
+
   }
 
   // Validateur personnalisé qui vérifie que la somme des attributs n'est pas supérieure à 40
@@ -155,7 +159,7 @@ export class HeroDetailComponent implements OnInit {
         this.hero.evasion = formValues.evasion;
         this.hero.health = formValues.health;
         this.hero.damage = formValues.damage;
-        this.hero.weapon = formValues.weapon;
+        this.hero.weaponId = formValues.weapon;
 
         this.heroService.updateHero(this.hero)
           .then(response => {
@@ -181,5 +185,10 @@ export class HeroDetailComponent implements OnInit {
           .catch((error) => console.log("Problème lors de la suppression du hero"));
     }
   }
+  ngOnDestroy(): void {
 
+    // Utilisation du cycle de vie du composant pour unsubscribe
+    console.log("Destroy heroe-detail component");
+    this.subscriptionGetWeapons?.unsubscribe();
+  }
 }

@@ -7,16 +7,16 @@ export class Hero {
     evasion: number;
     damage: number;
     health: number;
-    weapon: Weapon;
+    weaponId: string;
 
-    constructor(id: string = "id_test", name: string = "Doe", attack: number = 10, evasion: number = 10, damage: number = 10, health: number = 10, weapon: Weapon = new Weapon()) {
+    constructor(id: string = "id_test", name: string = "Doe", attack: number = 10, evasion: number = 10, damage: number = 10, health: number = 10, weaponId: string = "idTest") {
         this.id = id;
         this.name = name;
         this.attack = attack;
         this.evasion = evasion;
         this.damage = damage;
         this.health = health;
-        this.weapon = weapon;
+        this.weaponId = weaponId;
     }
 
 
