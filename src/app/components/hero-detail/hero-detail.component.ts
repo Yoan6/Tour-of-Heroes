@@ -7,7 +7,7 @@ import {AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, 
 import { HeroService } from '../../service/hero.service';
 import { WeaponService } from "../../service/weapon.service";
 import {Weapon} from "../../data/weapon";
-import {first, Observable, Subscription} from "rxjs";
+import {catchError, first, Observable, of, Subscription, switchMap} from "rxjs";
 
 
 @Component({
@@ -18,7 +18,6 @@ import {first, Observable, Subscription} from "rxjs";
 export class HeroDetailComponent implements OnInit {
   hero: Hero | undefined;
   weapons: Weapon[] = [];
-  weaponsAysnc?: Observable<Weapon[]>;
   subscriptionGetWeapons?: Subscription;
   errorMessages: string[] = [];
 
@@ -102,6 +101,7 @@ export class HeroDetailComponent implements OnInit {
     };
   }
 
+  // Validateur personnalisé qui vérifie que la somme des attributs n'est pas supérieure à 40
   remainingPointsValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const attack = control.get('attack')?.value || 0;
@@ -112,9 +112,8 @@ export class HeroDetailComponent implements OnInit {
       const remainingPoints = 40 - totalAttributes;
 
       if (totalAttributes < 40) {
-        return { totalAttributesExceeded: true, remainingPoints };
+        return { remainingPointsValidator: true, remainingPoints };
       }
-
       return null;
     };
   }
@@ -128,20 +127,39 @@ export class HeroDetailComponent implements OnInit {
       const evasion = control.get('evasion')?.value || 0;
       const health = control.get('health')?.value || 0;
       const damage = control.get('damage')?.value || 0;
-      const weaponAttack = control.get('weapon')?.get('attack')?.value || 0;
-      const weaponEvasion = control.get('weapon')?.get('evasion')?.value || 0;
-      const weaponHealth = control.get('weapon')?.get('health')?.value || 0;
-      const weaponDamage = control.get('weapon')?.get('damage')?.value || 0;
-      const totalAttack = attack + weaponAttack;
-      const totalEvasion = evasion + weaponEvasion;
-      const totalHealth = health + weaponHealth;
-      const totalDamage = damage + weaponDamage;
+      const weaponId = control.get('weapon')?.value;
 
-      if (totalAttack <= 0 || totalEvasion <= 0 || totalHealth <= 0 || totalDamage <= 0) {
-        return { forbiddenWeaponAttributsValidator: true };
-      } else {
-        return null;
+      let foundWeapon: Weapon | undefined;
+      // On parcourt les armes de la liste des armes pour trouver l'arme correspondant à weaponId
+      foundWeapon = this.weapons.find(weapon => weapon.id === weaponId);
+      if (foundWeapon) {
+        const weaponAttack = foundWeapon.attack;
+        const weaponEvasion = foundWeapon.evasion;
+        const weaponHealth = foundWeapon.health;
+        const weaponDamage = foundWeapon.damage;
+        const totalAttack = attack + weaponAttack;
+        const totalEvasion = evasion + weaponEvasion;
+        const totalHealth = health + weaponHealth;
+        const totalDamage = damage + weaponDamage;
+        const invalidAttributes: string[] = [];
+        if (totalAttack <= 0) {
+          invalidAttributes.push('Attack');
+        }
+        if (totalEvasion <= 0) {
+          invalidAttributes.push('Evasion');
+        }
+        if (totalHealth <= 0) {
+          invalidAttributes.push('Health');
+        }
+        if (totalDamage <= 0) {
+          invalidAttributes.push('Damage');
+        }
+        console.log("Total attack : " + totalAttack + ", Total evasion : " + totalEvasion + ", Total health : " + totalHealth + ", Total damage : " + totalDamage);
+        if (totalAttack <= 0 || totalEvasion <= 0 || totalHealth <= 0 || totalDamage <= 0) {
+          return { forbiddenWeaponAttributsValidator: true, invalidAttributes };
+        }
       }
+      return null;
     };
   }
 

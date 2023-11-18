@@ -83,7 +83,7 @@
       </select>
     </div>
 
-    <div *ngIf="heroForm.hasError('totalAttributesExceeded')" class="error-message">
+    <div *ngIf="heroForm.hasError('remainingPointsValidator')" class="error-message">
       Remaining points: {{ heroForm.getError('remainingPoints') }}
     </div>
 
@@ -93,7 +93,10 @@
     </div>
 
     <div *ngIf="heroForm.hasError('forbiddenWeaponAttributsValidator')" class="error-message">
-      The total of weapon attributes and hero attributes cannot be less than 1.
+      <p>The total of weapon attributes and hero attributes cannot be less than 1 for attributes :</p>
+      <ul>
+        <li *ngFor="let attribute of heroForm.getError('invalidAttributes')">{{ attribute }}</li>
+      </ul>
     </div>
 
     <button type="submit" [disabled]="!heroForm.valid">Modify the hero</button>
