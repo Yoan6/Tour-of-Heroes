@@ -1,10 +1,28 @@
 <h2>My Heroes</h2>
+<div class="div-principale">
+  <div class="sort">
+    <label>Sort with : </label>
+    <select [(ngModel)]="selectedSortOption">
+      <option value=""></option>
+      <option value="name">Name</option>
+      <option value="attack">Attack</option>
+      <option value="evasion">Evasion</option>
+      <option value="dammage">Dammage</option>
+      <option value="health">Health</option>
+    </select>
+    <button (click)="filterHeroes(selectedSortOption)">Sort</button>
+  </div>
 
-<ul class="heroes">
-  <li *ngFor="let hero of heroes">
-    <a routerLink="/heroes/{{hero.id}}">
-      <span class="badge">{{hero.id}}</span> {{hero.name}}
-    </a>
-  </li>
-  <button (click)="newHero()">Add a hero</button>
-</ul>
+  <div>
+    <ul class="heroes">
+      <li *ngFor="let hero of heroes">
+        <a routerLink="/heroes/{{hero.id}}">
+          <span class="badge">{{hero.id}}</span> {{hero.name}}
+        </a>
+      </li>
+      <button (click)="newHero()">Add a hero</button>
+    </ul>
+  </div>
+</div>
+
+

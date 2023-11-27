@@ -52,3 +52,18 @@
   margin-right: .8em;
   border-radius: 4px 0 0 4px;
 }
+
+.div-principale {
+  display: flex;
+  flex-direction: row;
+}
+
+.sort {
+  margin-right: 70px;
+  padding: 20px;
+  background-color: #9a9a9a;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
