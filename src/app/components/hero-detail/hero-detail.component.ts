@@ -52,7 +52,7 @@ export class HeroDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.getHero();
-    this.getWeapons();
+
   }
 
   getHero(): void {
@@ -68,6 +68,9 @@ export class HeroDetailComponent implements OnInit {
             health: this.hero.health,
             damage: this.hero.damage
           });
+
+          // On fait l'appel à getWeapon après avoir récupérer le héro et son weaponId
+          this.getWeapons();
         });
     }
   }
@@ -129,6 +132,9 @@ export class HeroDetailComponent implements OnInit {
       const damage = control.get('damage')?.value || 0;
       const weaponId = control.get('weapon')?.value;
 
+      if (weaponId == null) {
+        return null;
+      }
       let foundWeapon: Weapon | undefined;
       // On parcourt les armes de la liste des armes pour trouver l'arme correspondant à weaponId
       foundWeapon = this.weapons.find(weapon => weapon.id === weaponId);
@@ -154,7 +160,6 @@ export class HeroDetailComponent implements OnInit {
         if (totalDamage <= 0) {
           invalidAttributes.push('Damage');
         }
-        console.log("Total attack : " + totalAttack + ", Total evasion : " + totalEvasion + ", Total health : " + totalHealth + ", Total damage : " + totalDamage);
         if (totalAttack <= 0 || totalEvasion <= 0 || totalHealth <= 0 || totalDamage <= 0) {
           return { forbiddenWeaponAttributsValidator: true, invalidAttributes };
         }

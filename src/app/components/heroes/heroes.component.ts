@@ -37,22 +37,25 @@ export class HeroesComponent implements OnInit {
     this.heroService.addHero(hero);
   }
 
-  // Fonction pour trier les héros en fonction de l'attribut renseigné:
+  // Fonction pour trier les héros en fonction de l'attribut renseigné
+  // (note : si l'utilisateur passe par goBack après avoir cliqué sur un héro, cela appellera la base de donnée
+  // et donc le tri sera perdu)
   // @ts-ignore
-  filterHeroes(sort: string): Heros[] {
+  filterHeroes(sort: string) {
+    console.log("Liste des héros: " + this.heroes);
     if (sort == "name") {
-      return this.heroes.sort((a, b) => a.name.localeCompare(b.name));
+      this.heroes.sort((a, b) => a.name.localeCompare(b.name));
     } else if (sort == "attack") {
-      return this.heroes.sort((a, b) => a.attack - b.attack);
+      this.heroes.sort((a, b) => a.attack - b.attack);
     } else if (sort == "evasion") {
-      return this.heroes.sort((a, b) => a.evasion - b.evasion);
+      this.heroes.sort((a, b) => a.evasion - b.evasion);
     } else if (sort == "damage") {
-      return this.heroes.sort((a, b) => a.damage - b.damage);
+      this.heroes.sort((a, b) => a.damage - b.damage);
     } else if (sort == "health") {
-      return this.heroes.sort((a, b) => a.health - b.health);
+      this.heroes.sort((a, b) => a.health - b.health);
     }
     else {
-      return this.heroes.slice(); // Retourner une copie du tableau pour éviter de modifier l'original
+      this.heroes.slice(); // Retourner une copie du tableau pour éviter de modifier l'original
     }
   }
 

@@ -79,6 +79,7 @@
     <div>
       <label for="weapon">Hero weapon : </label>
       <select formControlName="weapon" id="weapon" name="weapon">
+        <option value=""></option>
         <option *ngFor="let weapon of weapons" [value]="weapon.id">{{weapon.name}}</option>
       </select>
     </div>
