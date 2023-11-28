@@ -67,4 +67,21 @@
   flex-direction: column;
   justify-content: space-around;
   color: black;
+  height: 280px;
+  text-align: center;
+}
+
+.filter {
+  margin-top: 40px;
+}
+
+dialog {
+  width: 300px;
+  height: 300px;
+}
+
+.row_filter {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }

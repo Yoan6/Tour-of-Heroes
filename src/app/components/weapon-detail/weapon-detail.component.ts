@@ -27,7 +27,6 @@ export class WeaponDetailComponent {
   }, {
     validators: [
       this.forbiddenAttributsValidator(),
-      this.remainingPointsValidator()
     ]
   });
 
@@ -61,26 +60,31 @@ export class WeaponDetailComponent {
 
   forbiddenAttributsValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      const forbidden = (control.value.attack + control.value.evasion + control.value.health + control.value.damage) != 0;
-      return forbidden ? {forbiddenAttributs: {value: control.value}} : null;
+      const attack = control.get('attack')?.value;
+      const evasion = control.get('evasion')?.value;
+      const health = control.get('health')?.value;
+      const damage = control.get('damage')?.value;
+      const totalAttributes = attack + evasion + health + damage;
+
+      if (totalAttributes != 0) {
+        return { forbiddenAttributes: true };
+      } else {
+        return null;
+      }
     };
   }
 
-  remainingPointsValidator(): ValidatorFn {
-      return (control: AbstractControl): ValidationErrors | null => {
-          const attack = control.get('attack')?.value || 0;
-          const evasion = control.get('evasion')?.value || 0;
-          const health = control.get('health')?.value || 0;
-          const damage = control.get('damage')?.value || 0;
-          const totalAttributes = attack + evasion + health + damage;
-          const remainingPoints = 0 - totalAttributes;
-
-          if (totalAttributes < 0) {
-              return { totalAttributesExceeded: true, remainingPoints };
-          }
-
-          return null;
-      };
+  // Fonction qui permet d'afficher les points restants à attribuer à une arme :
+  // @ts-ignore
+  remainingPoints(): number {
+    const weaponAttack = this.weaponForm.value.attack;
+    const weaponEvasion = this.weaponForm.value.evasion;
+    const weaponHealth = this.weaponForm.value.health;
+    const weaponDamage = this.weaponForm.value.damage;
+    const totalAttributes = weaponAttack + weaponEvasion + weaponHealth + weaponDamage;
+    if (totalAttributes < 0) {
+      return 0 - totalAttributes;
+    }
   }
 
   goBack(): void {
@@ -102,6 +106,7 @@ export class WeaponDetailComponent {
           .then(response => {
             // Gérer la réponse ici, par exemple, afficher un message de succès
             console.log('Arme mise à jour avec succès', response);
+            this.router.navigateByUrl('/weapons');
           })
           .catch(error => {
             // Gérer les erreurs ici, par exemple, afficher un message d'erreur

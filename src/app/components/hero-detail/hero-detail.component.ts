@@ -37,7 +37,6 @@ export class HeroDetailComponent implements OnInit {
   }, {
     validators: [
       this.forbiddenAttributsValidator(),
-      this.remainingPointsValidator(),
       this.forbiddenWeaponAttributsValidator()
     ]
   });
@@ -104,21 +103,17 @@ export class HeroDetailComponent implements OnInit {
     };
   }
 
-  // Validateur personnalisé qui vérifie que la somme des attributs n'est pas supérieure à 40
-  remainingPointsValidator(): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-      const attack = control.get('attack')?.value || 0;
-      const evasion = control.get('evasion')?.value || 0;
-      const health = control.get('health')?.value || 0;
-      const damage = control.get('damage')?.value || 0;
-      const totalAttributes = attack + evasion + health + damage;
-      const remainingPoints = 40 - totalAttributes;
-
-      if (totalAttributes < 40) {
-        return { remainingPointsValidator: true, remainingPoints };
-      }
-      return null;
-    };
+  // Fonction qui permet d'afficher les points restants à attribuer au héro :
+  // @ts-ignore
+  remainingPoints(): number {
+    const attack = this.heroForm.get('attack')?.value || 0;
+    const evasion = this.heroForm.get('evasion')?.value || 0;
+    const health = this.heroForm.get('health')?.value || 0;
+    const damage = this.heroForm.get('damage')?.value || 0;
+    const totalAttributes = attack + evasion + health + damage;
+    if (totalAttributes < 40) {
+      return 40 - totalAttributes;
+    }
   }
 
   // On fait un validateur pour check pour chaque attributs du héro si la somme

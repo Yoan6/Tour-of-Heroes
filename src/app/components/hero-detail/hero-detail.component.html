@@ -84,13 +84,13 @@
       </select>
     </div>
 
-    <div *ngIf="heroForm.hasError('remainingPointsValidator')" class="error-message">
-      Remaining points: {{ heroForm.getError('remainingPoints') }}
-    </div>
-
 
     <div *ngIf="heroForm.hasError('forbiddenAttributes')" class="error-message">
       Total attributes cannot exceed 40.
+    </div>
+
+    <div class="error" *ngIf="remainingPoints()">
+      <p class="error-message">Remaining points : {{remainingPoints()}}</p>
     </div>
 
     <div *ngIf="heroForm.hasError('forbiddenWeaponAttributsValidator')" class="error-message">

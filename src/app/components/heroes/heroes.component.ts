@@ -13,6 +13,7 @@ export class HeroesComponent implements OnInit {
   hero?: Hero;
   heroes: Hero[] = [];
   selectedSortOption: string = ""; // Pour stocker la valeur sélectionnée dans la liste déroulante du tri
+  selectedFilterOption: string = ""; // Pour stocker la valeur sélectionnée dans la liste déroulante du filtre
   heroesAysnc?: Observable<Hero[]>;
 
   subscriptionGetHeroes?: Subscription;
