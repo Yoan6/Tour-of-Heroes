@@ -1,28 +1,61 @@
 /* HeroDetailComponent's private CSS styles */
 label {
-    color: #435960;
-    font-weight: bold;
-  }
-  input {
-    font-size: 1em;
-    padding: .5rem;
-  }
-  button {
-    margin-top: 20px;
-    background-color: #eee;
-    padding: 1rem;
-    border-radius: 4px;
-    font-size: 1rem;
-  }
-  button:hover {
-    background-color: #cfd8dc;
-  }
-  button:disabled {
-    background-color: #eee;
-    color: #ccc;
-    cursor: auto;
-  }
+  color: #435960;
+  font-weight: bold;
+}
+input {
+  font-size: 1em;
+  padding: .5rem;
+}
+button {
+  margin-top: 20px;
+  background-color: #eee;
+  padding: 1rem;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+button:hover {
+  background-color: #cfd8dc;
+}
+button:disabled {
+  background-color: #eee;
+  color: #ccc;
+  cursor: auto;
+}
 
-  .error-message {
-    color: #d6001c;
-  }
+.error-message {
+  color: #d6001c;
+}
+
+#colors {
+  margin: 20px;
+  background-color: #c5c2c2;
+  border-radius: 10px;
+  width: 180px;
+  height: 40px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.hero_color {
+  color: #336699;
+  font-weight: bold;
+}
+
+.weapon_color {
+  color: #990000;
+  font-weight: bold;
+}
+
+form > div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+form input, select {
+  margin-left: 10px;
+  margin-right: 10px;
+}

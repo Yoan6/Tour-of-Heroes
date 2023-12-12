@@ -3,6 +3,7 @@
   <button type="button" (click)="goBack()">Go back</button>
   <h2>{{hero.name | uppercase}} Details</h2>
   <div><span>Id: </span>{{hero.id}}</div>
+  <div id="colors"><span class="hero_color">Hero</span><span class="weapon_color">Weapon</span></div>
 
   <form [formGroup]="heroForm" (ngSubmit)="modifyHero()">
     <div>
@@ -31,6 +32,7 @@
           Attack must be at least 1.
         </div>
       </div>
+      <span class="hero_color">{{heroForm.get('attack')?.value}}</span> <span class="weapon_color">{{weaponAttack()}}</span> <span><strong>=</strong></span> <span><strong>{{attackTotal()}}</strong></span>
     </div>
 
     <div>
@@ -46,6 +48,7 @@
           Evasion must be at least 1.
         </div>
       </div>
+      <span class="hero_color">{{heroForm.get("evasion")?.value}}</span> <span class="weapon_color">{{weaponEvasion()}}</span> <span><strong>=</strong></span> <span><strong>{{evasionTotal()}}</strong></span>
     </div>
 
     <div>
@@ -60,6 +63,7 @@
           Health must be at least 1.
         </div>
       </div>
+      <span class="hero_color">{{heroForm.get("health")?.value}}</span> <span class="weapon_color">{{weaponHealth()}}</span> <span><strong>=</strong></span> <span><strong>{{healthTotal()}}</strong></span>
     </div>
 
     <div>
@@ -74,6 +78,7 @@
           Damage must be at least 1.
         </div>
       </div>
+      <span class="hero_color">{{heroForm.get("damage")?.value}}</span> <span class="weapon_color">{{weaponDamage()}}</span> <span><strong>=</strong></span> <span><strong>{{damageTotal()}}</strong></span>
     </div>
 
     <div>

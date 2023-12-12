@@ -19,7 +19,6 @@ export class HeroDetailComponent implements OnInit {
   hero: Hero | undefined;
   weapons: Weapon[] = [];
   subscriptionGetWeapons?: Subscription;
-  errorMessages: string[] = [];
 
   heroForm: FormGroup = new FormGroup({
     name: new FormControl('',Validators.compose([
@@ -68,7 +67,7 @@ export class HeroDetailComponent implements OnInit {
             damage: this.hero.damage
           });
 
-          // On fait l'appel à getWeapon après avoir récupérer le héro et son weaponId
+          // On fait l'appel à getWeapon après avoir récupéré le héro et son weaponId
           this.getWeapons();
         });
     }
@@ -82,8 +81,6 @@ export class HeroDetailComponent implements OnInit {
           weapon: this.hero?.weaponId
         });
       });
-
-
   }
 
   // Validateur personnalisé qui vérifie que la somme des attributs n'est pas supérieure à 40
@@ -101,6 +98,150 @@ export class HeroDetailComponent implements OnInit {
         return null;
       }
     };
+  }
+
+  // Fonction qui permet d'afficher l'attaque de l'arme sélectionnée :
+  // @ts-ignore
+  weaponAttack(): string {
+    const weaponId = this.heroForm.get('weapon')?.value;
+    if (weaponId == null) {
+      return '';
+    }
+    let foundWeapon: Weapon | undefined;
+    // On parcourt les armes de la liste des armes pour trouver l'arme correspondant à weaponId
+    foundWeapon = this.weapons.find(weapon => weapon.id === weaponId);
+    if (foundWeapon) {
+      if (foundWeapon.attack >= 0) {
+        return String("+" + foundWeapon.attack);
+      }
+      return String(foundWeapon.attack);
+    }
+    return '';
+  }
+
+  // Fonction qui permet d'afficher l'évasion de l'arme sélectionnée :
+  // @ts-ignore
+  weaponEvasion(): string {
+    const weaponId = this.heroForm.get('weapon')?.value;
+    if (weaponId == null) {
+      return '';
+    }
+    let foundWeapon: Weapon | undefined;
+    // On parcourt les armes de la liste des armes pour trouver l'arme correspondant à weaponId
+    foundWeapon = this.weapons.find(weapon => weapon.id === weaponId);
+    if (foundWeapon) {
+      if (foundWeapon.evasion >= 0) {
+        return String("+" + foundWeapon.evasion);
+      }
+      return String(foundWeapon.evasion);
+    }
+    return '';
+  }
+
+  // Fonction qui permet d'afficher la vie de l'arme sélectionnée :
+  // @ts-ignore
+  weaponHealth(): string {
+    const weaponId = this.heroForm.get('weapon')?.value;
+    if (weaponId == null) {
+      return '';
+    }
+    let foundWeapon: Weapon | undefined;
+    // On parcourt les armes de la liste des armes pour trouver l'arme correspondant à weaponId
+    foundWeapon = this.weapons.find(weapon => weapon.id === weaponId);
+    if (foundWeapon) {
+      if (foundWeapon.health >= 0) {
+        return String("+" + foundWeapon.health);
+      }
+      return String(foundWeapon.health);
+    }
+    return '';
+  }
+
+  // Fonction qui permet d'afficher les dégâts de l'arme sélectionnée :
+  // @ts-ignore
+  weaponDamage(): string {
+    const weaponId = this.heroForm.get('weapon')?.value;
+    if (weaponId == null) {
+      return '';
+    }
+    let foundWeapon: Weapon | undefined;
+    // On parcourt les armes de la liste des armes pour trouver l'arme correspondant à weaponId
+    foundWeapon = this.weapons.find(weapon => weapon.id === weaponId);
+    if (foundWeapon) {
+      if (foundWeapon.damage >= 0) {
+        return String("+" + foundWeapon.damage);
+      }
+      return String(foundWeapon.damage);
+    }
+    return '';
+  }
+
+  // Permet de calculer le total de l'attaque du héro et de son arme si il en a une
+  attackTotal(): number {
+    const attack = this.heroForm.get('attack')?.value || 0;
+    const weaponId = this.heroForm.get('weapon')?.value;
+    if (weaponId == null) {
+      return attack;
+    }
+    let foundWeapon: Weapon | undefined;
+    // On parcourt les armes de la liste des armes pour trouver l'arme correspondant à weaponId
+    foundWeapon = this.weapons.find(weapon => weapon.id === weaponId);
+    if (foundWeapon) {
+      const weaponAttack = foundWeapon.attack;
+      return attack + weaponAttack;
+    }
+    return attack;
+  }
+
+  // Permet de calculer le total de l'évasion du héro et de son arme si il en a une
+  evasionTotal(): number {
+    const evasion = this.heroForm.get('evasion')?.value || 0;
+    const weaponId = this.heroForm.get('weapon')?.value;
+    if (weaponId == null) {
+      return evasion;
+    }
+    let foundWeapon: Weapon | undefined;
+    // On parcourt les armes de la liste des armes pour trouver l'arme correspondant à weaponId
+    foundWeapon = this.weapons.find(weapon => weapon.id === weaponId);
+    if (foundWeapon) {
+      const weaponEvasion = foundWeapon.evasion;
+      return evasion + weaponEvasion;
+    }
+    return evasion;
+  }
+
+  // Permet de calculer le total de la vie du héro et de son arme si il en a une
+  healthTotal(): number {
+    const health = this.heroForm.get('health')?.value || 0;
+    const weaponId = this.heroForm.get('weapon')?.value;
+    if (weaponId == null) {
+      return health;
+    }
+    let foundWeapon: Weapon | undefined;
+    // On parcourt les armes de la liste des armes pour trouver l'arme correspondant à weaponId
+    foundWeapon = this.weapons.find(weapon => weapon.id === weaponId);
+    if (foundWeapon) {
+      const weaponHealth = foundWeapon.health;
+      return health + weaponHealth;
+    }
+    return health;
+  }
+
+  // Permet de calculer le total des dégâts du héro et de son arme si il en a une
+  damageTotal(): number {
+    const damage = this.heroForm.get('damage')?.value || 0;
+    const weaponId = this.heroForm.get('weapon')?.value;
+    if (weaponId == null) {
+      return damage;
+    }
+    let foundWeapon: Weapon | undefined;
+    // On parcourt les armes de la liste des armes pour trouver l'arme correspondant à weaponId
+    foundWeapon = this.weapons.find(weapon => weapon.id === weaponId);
+    if (foundWeapon) {
+      const weaponDamage = foundWeapon.damage;
+      return damage + weaponDamage;
+    }
+    return damage;
   }
 
   // Fonction qui permet d'afficher les points restants à attribuer au héro :
