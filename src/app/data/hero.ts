@@ -8,8 +8,9 @@ export class Hero {
     damage: number;
     health: number;
     weaponId: string;
+    image: string | undefined;
 
-    constructor(id: string = "id_test", name: string = "Doe", attack: number = 10, evasion: number = 10, damage: number = 10, health: number = 10, weaponId: string = "idTest") {
+    constructor(id: string = "id_test", name: string = "Doe", attack: number = 10, evasion: number = 10, damage: number = 10, health: number = 10, weaponId: string = "idTest", image: string = "") {
         this.id = id;
         this.name = name;
         this.attack = attack;
@@ -17,6 +18,7 @@ export class Hero {
         this.damage = damage;
         this.health = health;
         this.weaponId = weaponId;
+        this.image = image;
     }
 
 

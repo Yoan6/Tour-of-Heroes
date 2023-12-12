@@ -1,9 +1,29 @@
 <div *ngIf="hero">
 
   <button type="button" (click)="goBack()">Go back</button>
-  <h2>{{hero.name | uppercase}} Details</h2>
-  <div><span>Id: </span>{{hero.id}}</div>
+  <div class="pp_hero">
+    <div>
+      <h2>{{hero.name | uppercase}} Details</h2>
+      <div><span>Id: </span>{{hero.id}}</div>
+    </div>
+    <div>
+      <img src="assets/{{hero.image}}" alt="image du héro">
+    </div>
+  </div>
   <div id="colors"><span class="hero_color">Hero</span><span class="weapon_color">Weapon</span></div>
+
+  <label for="image">Hero image : </label>
+  <select [(ngModel)]="hero.image" id="image">
+    <option value=""></option>
+    <option value="hero1.jpeg">Image 1</option>
+    <option value="hero2.jpeg">Image 2</option>
+    <option value="hero3.jpeg">Image 3</option>
+    <option value="hero4.jpeg">Image 4</option>
+    <option value="hero5.jpeg">Image 5</option>
+    <option value="hero6.jpeg">Image 6</option>
+    <option value="hero7.jpeg">Image 7</option>
+    <option value="hero8.jpeg">Image 8</option>
+  </select>
 
   <form [formGroup]="heroForm" (ngSubmit)="modifyHero()">
     <div>
@@ -88,7 +108,6 @@
         <option *ngFor="let weapon of weapons" [value]="weapon.id">{{weapon.name}}</option>
       </select>
     </div>
-
 
     <div *ngIf="heroForm.hasError('forbiddenAttributes')" class="error-message">
       Total attributes cannot exceed 40.
