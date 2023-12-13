@@ -97,4 +97,13 @@
     <button type="submit" [disabled]="!weaponForm.valid">Modify the weapon</button>
     <button (click)="deleteWeapon(this.weapon.id || '')">Delete the weapon</button>
   </form>
+
+  <div>
+    <h2>Heroes of the weapon</h2>
+    <ul *ngFor="let hero of heroesOfWeapon">
+      <li routerLink="/heroes/{{hero.id}}">
+        {{hero.name}}
+      </li>
+    </ul>
+  </div>
 </div>

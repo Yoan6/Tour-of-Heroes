@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import { Weapon} from "../../data/weapon";
+import { Hero } from "../../data/hero";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Location } from '@angular/common';
 import {AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
 import {WeaponService} from "../../service/weapon.service";
+import {HeroService} from "../../service/hero.service";
 
 @Component({
   selector: 'app-weapon-detail',
@@ -12,7 +14,7 @@ import {WeaponService} from "../../service/weapon.service";
 })
 export class WeaponDetailComponent {
   weapon: Weapon | undefined;
-  errorMessages: string[] = [];
+  heroesOfWeapon: Hero[] | undefined;
   weaponForm: FormGroup = new FormGroup({
     name: new FormControl('',Validators.compose([
       Validators.required, Validators.minLength(3)])),
@@ -33,12 +35,14 @@ export class WeaponDetailComponent {
   constructor(
     private route: ActivatedRoute,
     private weaponService: WeaponService,
+    private heroService: HeroService,
     private location: Location,
     private router: Router
   ) {}
 
   ngOnInit(): void {
     this.getWeapon();
+    this.getHeroesOfWeapon();
   }
 
   getWeapon(): void {
@@ -55,6 +59,15 @@ export class WeaponDetailComponent {
             damage: this.weapon.damage
           });
         });
+    }
+  }
+
+  getHeroesOfWeapon(): void {
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id != null) {
+      this.heroService.getHeroes().subscribe(heroes => {
+        this.heroesOfWeapon = heroes.filter(hero => hero.weaponId === id);
+      });
     }
   }
 

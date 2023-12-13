@@ -26,3 +26,21 @@ button:disabled {
 .error-message {
   color: #d6001c;
 }
+
+li {
+  padding: 10px;
+  background-color: #eee;
+  width: 140px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+}
+
+li:hover {
+  background-color: #cfd8dc;
+  cursor: pointer;
+}
+a {
+  text-decoration: none;
+  color: #435960;
+  font-weight: bold;
+}
