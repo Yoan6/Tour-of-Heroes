@@ -27,6 +27,31 @@
   </div>
 </div>
 
+<h2>Fight of heroes</h2>
+
+<div class="fight-heroes">
+  <div class="hero">
+    <h3>Hero 1</h3>
+    <select [(ngModel)]="selectedHero1">
+      <option value=""></option>
+      <option *ngFor="let hero of heroes" [value]="hero.id">{{hero.name}}</option>
+    </select>
+  </div>
+
+  <div class="hero">
+    <h3>Hero 2</h3>
+    <select [(ngModel)]="selectedHero2">
+      <option value=""></option>
+      <option *ngFor="let hero of heroes" [value]="hero.id">{{hero.name}}</option>
+    </select>
+  </div>
+</div>
+
+<div id="go-fight">
+  <a (click)="fightHeroes()">Let's fight 2 heroes together</a>
+</div>
+
+
 <dialog #filter_dialog>
   <div class="row_filter">
     <h2>Filter</h2>

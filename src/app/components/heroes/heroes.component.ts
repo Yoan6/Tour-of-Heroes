@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Hero} from '../../data/hero';
 import {HeroService} from "../../service/hero.service";
 import {first, Observable, Subscription} from "rxjs";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-heroes',
@@ -15,10 +16,11 @@ export class HeroesComponent implements OnInit {
   selectedSortOption: string = ""; // Pour stocker la valeur sélectionnée dans la liste déroulante du tri
   selectedFilterOption: string = ""; // Pour stocker la valeur sélectionnée dans la liste déroulante du filtre
   heroesAysnc?: Observable<Hero[]>;
-
   subscriptionGetHeroes?: Subscription;
+  selectedHero1?: null; // Pour le match de héro
+  selectedHero2?: null; // Pour le match de héro
 
-  constructor(private heroService: HeroService) {
+  constructor(private heroService: HeroService, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -47,20 +49,26 @@ export class HeroesComponent implements OnInit {
     if (sort == "name") {
       this.heroes.sort((a, b) => a.name.localeCompare(b.name));
     } else if (sort == "attack") {
-      this.heroes.sort((a, b) => a.attack - b.attack);
+      this.heroes.sort((a, b) => b.attack - a.attack);
     } else if (sort == "evasion") {
-      this.heroes.sort((a, b) => a.evasion - b.evasion);
+      this.heroes.sort((a, b) => b.evasion - a.evasion);
     } else if (sort == "damage") {
-      this.heroes.sort((a, b) => a.damage - b.damage);
+      this.heroes.sort((a, b) => b.damage - a.damage);
     } else if (sort == "health") {
-      this.heroes.sort((a, b) => a.health - b.health);
+      this.heroes.sort((a, b) => b.health - a.health);
     }
     else {
       this.heroes.slice(); // Retourner une copie du tableau pour éviter de modifier l'original
     }
   }
 
-
+  // Fonction pour commencer un fight entre 2 héros
+  // @ts-ignore
+  fightHeroes() {
+    if (this.selectedHero1 != null && this.selectedHero2 != null && this.selectedHero1 != this.selectedHero2) {
+      this.router.navigateByUrl('/fight/' + this.selectedHero1 + '/' + this.selectedHero2);
+    }
+  }
 
   // Désabonnement de l'observable
   unsubscribeGetHeroes(): void {

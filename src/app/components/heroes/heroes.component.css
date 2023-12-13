@@ -3,7 +3,7 @@
   margin: 0 0 2em 0;
   list-style-type: none;
   padding: 0;
-  width: 15em;
+  width: 20em;
 }
 .heroes li {
   position: relative;
@@ -84,4 +84,33 @@ dialog {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+}
+
+.fight-heroes {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin: 30px;
+  width: 300px;
+  background-color: #d2cece;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+#go-fight a {
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+  width: inherit;
+  height: inherit;
+  padding: 10px;
+  background-color: rgba(190, 23, 23, 0.74);
+  border-radius: 10px;
+  margin-left: 80px;
+}
+
+#go-fight a:hover {
+  background-color: #525252;
+  color: #fafafa;
+  cursor: pointer;
 }

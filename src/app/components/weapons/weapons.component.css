@@ -3,7 +3,7 @@
   margin: 0 0 2em 0;
   list-style-type: none;
   padding: 0;
-  width: 15em;
+  width: 20em;
 }
 .weapons li {
   position: relative;
@@ -51,4 +51,37 @@
   text-align: right;
   margin-right: .8em;
   border-radius: 4px 0 0 4px;
+}
+
+.div-principale {
+  display: flex;
+  flex-direction: row;
+}
+
+.sort {
+  margin-right: 70px;
+  padding: 20px;
+  background-color: #d2cece;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  color: black;
+  height: 280px;
+  text-align: center;
+}
+
+.filter {
+  margin-top: 40px;
+}
+
+dialog {
+  width: 300px;
+  height: 300px;
+}
+
+.row_filter {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }

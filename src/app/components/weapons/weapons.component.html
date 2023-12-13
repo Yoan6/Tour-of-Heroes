@@ -1,10 +1,45 @@
 <h2>My Weapons</h2>
+<div class="div-principale">
+  <div class="sort">
+    <label>Sort with : </label>
+    <select [(ngModel)]="selectedSortOption">
+      <option value=""></option>
+      <option value="name">Name</option>
+      <option value="attack">Attack</option>
+      <option value="evasion">Evasion</option>
+      <option value="dammage">Dammage</option>
+      <option value="health">Health</option>
+    </select>
+    <button (click)="filterWeapons(selectedSortOption)">Sort</button>
 
-<ul class="weapons">
-  <li *ngFor="let weapon of weapons">
-    <a routerLink="/weapons/{{weapon.id}}">
-      <span class="badge">{{weapon.id}}</span> {{weapon.name}}
-    </a>
-  </li>
-  <button (click)="newWeapon()">Add a weapon</button>
-</ul>
+    <button class="filter" (click)="filter_dialog.showModal()">Filter</button>
+  </div>
+
+  <div>
+    <ul class="weapons">
+      <li *ngFor="let weapon of weapons">
+        <a routerLink="/weapons/{{weapon.id}}">
+          <span class="badge">{{weapon.id}}</span> {{weapon.name}}
+        </a>
+      </li>
+      <button (click)="newWeapon()">Add a weapon</button>
+    </ul>
+  </div>
+
+<dialog #filter_dialog>
+  <div class="row_filter">
+    <h2>Filter</h2>
+    <button (click)="filter_dialog.close()">Fermer</button>
+  </div>
+
+  <hr>
+  <div class="row_filter">
+    <select [(ngModel)]="selectedFilterOption">
+      <option value=""></option>
+      <option value="attack">Attack</option>
+      <option value="evasion">Evasion</option>
+      <option value="dammage">Dammage</option>
+      <option value="health">Health</option>
+    </select>
+  </div>
+</dialog>

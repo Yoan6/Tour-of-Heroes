@@ -12,7 +12,8 @@ import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { WeaponDetailComponent } from './components/weapon-detail/weapon-detail.component';
-import { WeaponsComponent } from './components/weapons/weapons.component'
+import { WeaponsComponent } from './components/weapons/weapons.component';
+import { FightComponent } from './components/fight/fight.component'
 
 @NgModule({
   imports: [
@@ -30,7 +31,8 @@ import { WeaponsComponent } from './components/weapons/weapons.component'
     HeroDetailComponent,
     MessagesComponent,
     WeaponDetailComponent,
-    WeaponsComponent
+    WeaponsComponent,
+    FightComponent
   ],
   bootstrap: [ AppComponent ]
 })

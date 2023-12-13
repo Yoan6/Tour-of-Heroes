@@ -11,6 +11,8 @@ import {first, Observable, Subscription} from "rxjs";
 export class WeaponsComponent implements OnInit {
   weapon?: Weapon;
   weapons: Weapon[] = [];
+  selectedSortOption: string = ""; // Pour stocker la valeur sélectionnée dans la liste déroulante du tri
+  selectedFilterOption: string = ""; // Pour stocker la valeur sélectionnée dans la liste déroulante du filtre
   weaponsAysnc?: Observable<Weapon[]>;
 
   subscriptionGetWeapons?: Subscription;
@@ -33,6 +35,28 @@ export class WeaponsComponent implements OnInit {
   newWeapon() {
     let weapon = new Weapon();
     this.weaponService.addWeapon(weapon);
+  }
+
+  // Fonction pour trier les armes en fonction de l'attribut renseigné
+  // (note : si l'utilisateur passe par goBack après avoir cliqué sur une arme, cela appellera la base de donnée
+  // et donc le tri sera perdu)
+  // @ts-ignore
+  filterWeapons(sort: string) {
+    console.log("Liste des armes: " + this.weapons);
+    if (sort == "name") {
+      this.weapons.sort((a, b) => a.name.localeCompare(b.name));
+    } else if (sort == "attack") {
+      this.weapons.sort((a, b) => b.attack - a.attack);
+    } else if (sort == "evasion") {
+      this.weapons.sort((a, b) => b.evasion - a.evasion);
+    } else if (sort == "damage") {
+      this.weapons.sort((a, b) => b.damage - a.damage);
+    } else if (sort == "health") {
+      this.weapons.sort((a, b) => b.health - a.health);
+    }
+    else {
+      this.weapons.slice(); // Retourner une copie du tableau pour éviter de modifier l'original
+    }
   }
 
   // Désabonnement de l'observable
