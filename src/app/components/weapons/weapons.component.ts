@@ -11,8 +11,11 @@ import {first, Observable, Subscription} from "rxjs";
 export class WeaponsComponent implements OnInit {
   weapon?: Weapon;
   weapons: Weapon[] = [];
-  selectedSortOption: string = ""; // Pour stocker la valeur sélectionnée dans la liste déroulante du tri
-  selectedFilterOption: string = ""; // Pour stocker la valeur sélectionnée dans la liste déroulante du filtre
+  selectedSortOption: string = ""; // Pour stocker l'attribut sélectionné dans la liste déroulante du tri
+
+  selectedFilterOption: string = ""; // Pour stocker l'attribut sélectionné dans la liste déroulante du filtre
+  selectedFilterOperator: string = ""; // Pour stocker l'opérateur sélectionné dans la liste déroulante du filtre
+  selectedFilterValue: string = ""; // Pour stocker la valeur sélectionnée dans la liste déroulante du filtre
   weaponsAysnc?: Observable<Weapon[]>;
 
   subscriptionGetWeapons?: Subscription;
@@ -41,7 +44,7 @@ export class WeaponsComponent implements OnInit {
   // (note : si l'utilisateur passe par goBack après avoir cliqué sur une arme, cela appellera la base de donnée
   // et donc le tri sera perdu)
   // @ts-ignore
-  filterWeapons(sort: string) {
+  sortWeapons(sort: string) {
     console.log("Liste des armes: " + this.weapons);
     if (sort == "name") {
       this.weapons.sort((a, b) => a.name.localeCompare(b.name));
@@ -56,6 +59,52 @@ export class WeaponsComponent implements OnInit {
     }
     else {
       this.weapons.slice(); // Retourner une copie du tableau pour éviter de modifier l'original
+    }
+  }
+
+  // Fonction pour filtrer les armes en fonction de l'attribut, de l'opérateur et de la valeur renseignés
+  // (note : si l'utilisateur passe par goBack après avoir cliqué sur une arme, cela appellera la base de donnée
+  // et donc le filtre sera perdu)
+  filterWeapons() {
+    const filterValue = parseInt(this.selectedFilterValue);
+    if (this.selectedFilterOption == "attack") {
+      if (this.selectedFilterOperator == ">" && this.selectedFilterValue) {
+        this.weapons = this.weapons.filter(weapon => weapon.attack > filterValue);
+      } else if (this.selectedFilterOperator == "<" && this.selectedFilterValue) {
+        this.weapons = this.weapons.filter(weapon => weapon.attack < filterValue);
+      } else if (this.selectedFilterOperator == "=" && this.selectedFilterValue) {
+        this.weapons = this.weapons.filter(weapon => weapon.attack == filterValue);
+      }
+    }
+    else if (this.selectedFilterOption == "evasion") {
+      if (this.selectedFilterOperator == ">" && this.selectedFilterValue) {
+        this.weapons = this.weapons.filter(weapon => weapon.evasion > filterValue);
+      } else if (this.selectedFilterOperator == "<" && this.selectedFilterValue) {
+        this.weapons = this.weapons.filter(weapon => weapon.evasion < filterValue);
+      } else if (this.selectedFilterOperator == "=" && this.selectedFilterValue) {
+        this.weapons = this.weapons.filter(weapon => weapon.evasion == filterValue);
+      }
+    }
+    else if (this.selectedFilterOption == "damage") {
+      if (this.selectedFilterOperator == ">" && this.selectedFilterValue) {
+        this.weapons = this.weapons.filter(weapon => weapon.damage > filterValue);
+      } else if (this.selectedFilterOperator == "<" && this.selectedFilterValue) {
+        this.weapons = this.weapons.filter(weapon => weapon.damage < filterValue);
+      } else if (this.selectedFilterOperator == "=" && this.selectedFilterValue) {
+        this.weapons = this.weapons.filter(weapon => weapon.damage == filterValue);
+      }
+    }
+    else if (this.selectedFilterOption == "health") {
+      if (this.selectedFilterOperator == ">" && this.selectedFilterValue) {
+        this.weapons = this.weapons.filter(weapon => weapon.health > filterValue);
+      } else if (this.selectedFilterOperator == "<" && this.selectedFilterValue) {
+        this.weapons = this.weapons.filter(weapon => weapon.health < filterValue);
+      } else if (this.selectedFilterOperator == "=" && this.selectedFilterValue) {
+        this.weapons = this.weapons.filter(weapon => weapon.health == filterValue);
+      }
+    }
+    else {
+      this.weapons.slice(); // Retourne une copie du tableau pour éviter de modifier l'original
     }
   }
 

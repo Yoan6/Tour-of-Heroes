@@ -13,8 +13,11 @@ import {Router} from "@angular/router";
 export class HeroesComponent implements OnInit {
   hero?: Hero;
   heroes: Hero[] = [];
-  selectedSortOption: string = ""; // Pour stocker la valeur sélectionnée dans la liste déroulante du tri
-  selectedFilterOption: string = ""; // Pour stocker la valeur sélectionnée dans la liste déroulante du filtre
+  selectedSortOption: string = ""; // Pour stocker l'attribut sélectionné dans la liste déroulante du tri
+
+  selectedFilterOption: string = ""; // Pour stocker l'attribut sélectionné dans la liste déroulante du filtre
+  selectedFilterOperator: string = ""; // Pour stocker l'opérateur sélectionné dans la liste déroulante du filtre
+  selectedFilterValue: string = ""; // Pour stocker la valeur sélectionnée dans la liste déroulante du filtre
   heroesAysnc?: Observable<Hero[]>;
   subscriptionGetHeroes?: Subscription;
   selectedHero1?: null; // Pour le match de héro
@@ -43,8 +46,7 @@ export class HeroesComponent implements OnInit {
   // Fonction pour trier les héros en fonction de l'attribut renseigné
   // (note : si l'utilisateur passe par goBack après avoir cliqué sur un héro, cela appellera la base de donnée
   // et donc le tri sera perdu)
-  // @ts-ignore
-  filterHeroes(sort: string) {
+  sortHeroes(sort: string) {
     console.log("Liste des héros: " + this.heroes);
     if (sort == "name") {
       this.heroes.sort((a, b) => a.name.localeCompare(b.name));
@@ -56,9 +58,50 @@ export class HeroesComponent implements OnInit {
       this.heroes.sort((a, b) => b.damage - a.damage);
     } else if (sort == "health") {
       this.heroes.sort((a, b) => b.health - a.health);
-    }
-    else {
+    } else {
       this.heroes.slice(); // Retourner une copie du tableau pour éviter de modifier l'original
+    }
+  }
+
+  // Fonction pour filtrer les héros en fonction de l'attribut, de l'opérateur et de la valeur renseignés
+  // (note : si l'utilisateur passe par goBack après avoir cliqué sur un héro, cela appellera la base de donnée
+  // et donc le filtre sera perdu)
+  filterHeroes() {
+    const filterValue = parseInt(this.selectedFilterValue);
+    if (this.selectedFilterOption == "attack") {
+      if (this.selectedFilterOperator == ">" && this.selectedFilterValue) {
+        this.heroes = this.heroes.filter(hero => hero.attack > filterValue);
+      } else if (this.selectedFilterOperator == "<" && this.selectedFilterValue) {
+        this.heroes = this.heroes.filter(hero => hero.attack < filterValue);
+      } else if (this.selectedFilterOperator == "=" && this.selectedFilterValue) {
+        this.heroes = this.heroes.filter(hero => hero.attack == filterValue);
+      }
+    } else if (this.selectedFilterOption == "evasion") {
+      if (this.selectedFilterOperator == ">" && this.selectedFilterValue) {
+        this.heroes = this.heroes.filter(hero => hero.evasion > filterValue);
+      } else if (this.selectedFilterOperator == "<" && this.selectedFilterValue) {
+        this.heroes = this.heroes.filter(hero => hero.evasion < filterValue);
+      } else if (this.selectedFilterOperator == "=" && this.selectedFilterValue) {
+        this.heroes = this.heroes.filter(hero => hero.evasion == filterValue);
+      }
+    } else if (this.selectedFilterOption == "damage") {
+      if (this.selectedFilterOperator == ">" && this.selectedFilterValue) {
+        this.heroes = this.heroes.filter(hero => hero.damage > filterValue);
+      } else if (this.selectedFilterOperator == "<" && this.selectedFilterValue) {
+        this.heroes = this.heroes.filter(hero => hero.damage < filterValue);
+      } else if (this.selectedFilterOperator == "=" && this.selectedFilterValue) {
+        this.heroes = this.heroes.filter(hero => hero.damage == filterValue);
+      }
+    } else if (this.selectedFilterOption == "health") {
+      if (this.selectedFilterOperator == ">" && this.selectedFilterValue) {
+        this.heroes = this.heroes.filter(hero => hero.health > filterValue);
+      } else if (this.selectedFilterOperator == "<" && this.selectedFilterValue) {
+        this.heroes = this.heroes.filter(hero => hero.health < filterValue);
+      } else {
+        this.heroes = this.heroes.filter(hero => hero.health == filterValue);
+      }
+    } else {
+      this.heroes.slice(); // Retourne une copie du tableau pour éviter de modifier l'original
     }
   }
 

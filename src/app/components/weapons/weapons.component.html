@@ -10,7 +10,7 @@
       <option value="dammage">Dammage</option>
       <option value="health">Health</option>
     </select>
-    <button (click)="filterWeapons(selectedSortOption)">Sort</button>
+    <button (click)="sortWeapons(selectedSortOption)">Sort</button>
 
     <button class="filter" (click)="filter_dialog.showModal()">Filter</button>
   </div>
@@ -25,6 +25,7 @@
       <button (click)="newWeapon()">Add a weapon</button>
     </ul>
   </div>
+</div>
 
 <dialog #filter_dialog>
   <div class="row_filter">
@@ -41,5 +42,18 @@
       <option value="dammage">Dammage</option>
       <option value="health">Health</option>
     </select>
+    <select [(ngModel)]="selectedFilterOperator">
+      <option value=""></option>
+      <option value=">">></option>
+      <option value="<"><</option>
+      <option value="=">=</option>
+    </select>
+    <select [(ngModel)]="selectedFilterValue">
+      <option value=""></option>
+      <option value="-5">-5</option>
+      <option value="0">0</option>
+      <option value="5">5</option>
+    </select>
+    <button (click)="filterWeapons();filter_dialog.close()">Filter</button>
   </div>
 </dialog>
