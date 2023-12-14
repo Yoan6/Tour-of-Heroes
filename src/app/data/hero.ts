@@ -10,7 +10,7 @@ export class Hero {
     weaponId: string;
     image: string | undefined;
 
-    constructor(id: string = "id_test", name: string = "Doe", attack: number = 10, evasion: number = 10, damage: number = 10, health: number = 10, weaponId: string = "idTest", image: string = "") {
+    constructor(id: string = "", name: string = "", attack: number = 10, evasion: number = 10, damage: number = 10, health: number = 10, weaponId: string = "", image: string = "") {
         this.id = id;
         this.name = name;
         this.attack = attack;

@@ -1,1 +1,53 @@
-<p>fight works!</p>
+<h2>Fight of heroes</h2>
+
+<div class="fight-heroes" *ngIf="!fight">
+  <div class="hero">
+    <h3>Hero 1</h3>
+    <select [(ngModel)]="selectedHero1">
+      <option value=""></option>
+      <option *ngFor="let hero of heroes" [value]="hero.id">{{hero.name}}</option>
+    </select>
+  </div>
+
+  <div class="hero">
+    <h3>Hero 2</h3>
+    <select [(ngModel)]="selectedHero2">
+      <option value=""></option>
+      <option *ngFor="let hero of heroes" [value]="hero.id">{{hero.name}}</option>
+    </select>
+  </div>
+</div>
+
+<div id="go-fight" *ngIf="!fight">
+  <a (click)="initHeroes()">Let's fight 2 heroes together</a>
+</div>
+
+<div class="heroes" *ngIf=" fight && selectedHero1 && selectedHero2">
+  <div class="hero">
+    <h3>Hero 1</h3>
+    <h4>{{selectedHero1.name}}</h4>
+    <img src="assets/{{selectedHero1.image}}" alt="{{selectedHero1.name}}">
+  </div>
+
+  <img src="assets/VS.png" alt="fight" class="fight-icon">
+
+  <div class="hero">
+    <h3>Hero 2</h3>
+    <h4>{{selectedHero2.name}}</h4>
+    <img src="assets/{{selectedHero2.image}}" alt="{{selectedHero2.name}}" class="icon">
+  </div>
+</div>
+
+<div class="game" *ngIf="fight">
+  <div class="fight-detail">
+    <div *ngFor="let detail of fight_details">
+      {{detail}}
+    </div>
+  </div>
+  <div class="buttons">
+    <button (click)="changeHeroes()">Change heroes</button>
+    <button (click)="fightHeroes()">Fight</button>
+  </div>
+</div>
+
+

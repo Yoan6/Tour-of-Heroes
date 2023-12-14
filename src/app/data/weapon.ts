@@ -6,7 +6,7 @@ export class Weapon {
     damage: number;
     health: number;
 
-    constructor(id: string = "id_test", name: string = "Example", attack: number = 0, evasion: number = 0, damage: number = 0, health: number = 0) {
+    constructor(id: string = "", name: string = "", attack: number = 0, evasion: number = 0, damage: number = 0, health: number = 0) {
         this.id = id;
         this.name = name;
         this.attack = attack;

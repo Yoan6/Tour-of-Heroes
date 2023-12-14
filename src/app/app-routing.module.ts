@@ -14,7 +14,7 @@ const routes: Routes = [
   { path: 'heroes/:id', component: HeroDetailComponent },
   { path: 'weapons', component: WeaponsComponent },
   { path: 'weapons/:id', component: WeaponDetailComponent },
-  { path: 'fight/:id1/:id2', component: FightComponent }
+  { path: 'fight', component: FightComponent }
 ];
 
 @NgModule({

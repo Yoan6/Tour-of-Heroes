@@ -1,0 +1,72 @@
+.fight-heroes {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin: 30px;
+  width: 300px;
+  background-color: #d2cece;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+#go-fight a {
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+  width: inherit;
+  height: inherit;
+  padding: 10px;
+  background-color: rgba(190, 23, 23, 0.74);
+  border-radius: 10px;
+  margin-left: 75px;
+}
+
+#go-fight a:hover {
+  background-color: #525252;
+  color: #fafafa;
+  cursor: pointer;
+}
+
+.heroes {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin-bottom: 80px;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin-bottom: 20px;
+  width: 200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.fight-detail {
+  padding: 10px;
+  width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid black;
+}
+
+.fight-detail:nth-last-child(0) {
+  font-weight: bold;
+}
+
+.hero img {
+  width: 100px;
+  height: 100px;
+}
+
+.fight-icon {
+  width: 190px;
+  height: 140px;
+  margin-top: 60px;
+}
+
+button {
+  border-radius: 10px;
+}

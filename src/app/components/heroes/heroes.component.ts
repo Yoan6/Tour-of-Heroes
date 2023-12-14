@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {Hero} from '../../data/hero';
 import {HeroService} from "../../service/hero.service";
 import {first, Observable, Subscription} from "rxjs";
-import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-heroes',
@@ -20,10 +19,8 @@ export class HeroesComponent implements OnInit {
   selectedFilterValue: string = ""; // Pour stocker la valeur sélectionnée dans la liste déroulante du filtre
   heroesAysnc?: Observable<Hero[]>;
   subscriptionGetHeroes?: Subscription;
-  selectedHero1?: null; // Pour le match de héro
-  selectedHero2?: null; // Pour le match de héro
 
-  constructor(private heroService: HeroService, private router: Router) {
+  constructor(private heroService: HeroService) {
   }
 
   ngOnInit(): void {
@@ -31,7 +28,6 @@ export class HeroesComponent implements OnInit {
   }
 
   getHeroes(): void {
-
     // Subscription "simple"
     this.subscriptionGetHeroes = this.heroService.getHeroes()
       .subscribe(heroes => this.heroes = heroes);
@@ -105,14 +101,6 @@ export class HeroesComponent implements OnInit {
     }
   }
 
-  // Fonction pour commencer un fight entre 2 héros
-  // @ts-ignore
-  fightHeroes() {
-    if (this.selectedHero1 != null && this.selectedHero2 != null && this.selectedHero1 != this.selectedHero2) {
-      this.router.navigateByUrl('/fight/' + this.selectedHero1 + '/' + this.selectedHero2);
-    }
-  }
-
   // Désabonnement de l'observable
   unsubscribeGetHeroes(): void {
     this.subscriptionGetHeroes?.unsubscribe();
@@ -123,7 +111,6 @@ export class HeroesComponent implements OnInit {
    * It is the perfect place to clean the component — for example, to cancel background tasks.
    */
   ngOnDestroy(): void {
-
     // Utilisation du cycle de vie du composant pour unsubscribe
     console.log("Destroy heroes component");
     this.subscriptionGetHeroes?.unsubscribe();
